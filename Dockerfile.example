@@ -1,0 +1,36 @@
+# Etapa 1: Builder
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Copiar package.json y package-lock.json primero
+COPY package*.json ./
+
+# Instalar TODAS las dependencias (prod + dev)
+RUN npm install
+
+# Copiar el resto del proyecto
+COPY . .
+
+# Construir TypeScript
+RUN npm run build
+
+# Etapa 2: Runtime para desarrollo
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copiar package.json y package-lock.json
+COPY package*.json ./
+
+# Instalar TODAS las dependencias (prod + dev) para desarrollo
+RUN npm install
+
+# Copiar el proyecto
+COPY . .
+
+# Exponer puerto
+EXPOSE 3000
+
+# Comando para hot reload en desarrollo
+CMD ["npm", "run", "start:dev"]
