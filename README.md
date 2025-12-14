@@ -52,11 +52,30 @@ It simplifies access management and avoids the need to create separate guards or
 The provided `docker-compose.yml` file (version `'3.9'`) sets up only the PostgreSQL database and PGAdmin.  
 It does **not** run the API, which allows full use of live-reloading and automatic code updates during development.
 
+## Metrics and Monitoring (Planned)
+
+While the project does not currently expose runtime metrics, the architecture is designed to allow easy integration with monitoring tools like **Grafana** or **DataDog**.
+
+### Possible Implementation Approach:
+
+- Use **Prometheus**-compatible metrics via a NestJS module such as [`nestjs-prometheus`](https://www.npmjs.com/package/nestjs-prometheus).
+- Track key metrics such as:
+  - HTTP request counts and latency per endpoint
+  - Error rates and status codes
+  - Database query performance
+- Expose a `/metrics` endpoint that can be scraped by Prometheus.
+- Connect Prometheus to Grafana to create dashboards for:
+  - API usage trends
+  - Error monitoring
+  - System performance
+
+This setup allows the project to scale and maintain observability without modifying existing controllers or services.
+
 ## Prerequisites
 
 To clone, configure, and run this project locally, you need the following software installed:
 
-| Software                    | Versión Requerida      |
+| Software                    | Version                |
 | :-------------------------- | :--------------------- |
 | **Node.js**                 | LTS (v20.x o superior) |
 | **npm**                     | v9.x o superior        |
